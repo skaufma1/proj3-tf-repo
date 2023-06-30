@@ -6,19 +6,19 @@ pipeline {
       parallel {
         stage('Destroy Module: Slave') {
           steps {
-            build job: '/var/jenkins_home/workspace/terraform_slave_destroy_job/Jenkinsfile_slave_destroy'
+            build job: 'terraform_slave_destroy_job'
           }
         }
         
         stage('Destroy Module: Prod 1') {
           steps {
-            build job: '/var/jenkins_home/workspace/terraform_prod1_destroy_job/Jenkinsfile_prod1_destroy'
+            build job: 'terraform_prod1_destroy_job'
           }
         }
         
         stage('Destroy Module: Prod 2') {
           steps {
-            build job: '/var/jenkins_home/workspace/terraform_prod2_destroy_job/Jenkinsfile_prod2_destroy'
+            build job: 'terraform_prod2_destroy_job'
           }
         }        
       }
