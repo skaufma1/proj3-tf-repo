@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    
+    stages {
+    
+        stage ('Terraform Init') {
+            steps {
+                dir('terraform_project/modules/prod1/') {
+                    sh 'terraform init'
+                }
+            }
+        }
+     
+        stage ('Terraform Apply') {
+            steps {
+                dir('terraform_project/modules/prod1/') {
+                    sh 'terraform apply --auto-approve'
+                }
+            }
+        }
+    }
+}
