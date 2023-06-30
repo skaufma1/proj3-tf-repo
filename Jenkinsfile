@@ -5,7 +5,9 @@ pipeline {
     
         stage ('Terraform Init') {
             steps {
-                sh 'terraform init'
+                dir('/terraform_project/modules/slave') {
+                    sh 'terraform init'
+                }
             }
         }
      
