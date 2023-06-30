@@ -13,7 +13,9 @@ pipeline {
      
         stage ('Terraform Apply') {
             steps {
-                sh 'terraform apply --auto-approve'
+                dir('/terraform_project/modules/slave') {
+                    sh 'terraform apply --auto-approve'
+                }
             }
         }
     }
