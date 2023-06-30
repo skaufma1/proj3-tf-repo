@@ -5,7 +5,7 @@ pipeline {
     
         stage ('Terraform Init') {
             steps {
-                dir('/terraform_project/modules/slave') {
+                dir('/terraform_project/modules/slave/') {
                     sh 'terraform init'
                 }
             }
@@ -13,7 +13,7 @@ pipeline {
      
         stage ('Terraform Apply') {
             steps {
-                dir('/terraform_project/modules/slave') {
+                dir('/terraform_project/modules/slave/') {
                     sh 'terraform apply --auto-approve'
                 }
             }
