@@ -19,7 +19,7 @@ resource "aws_instance" "ec2" {
     connection {
         type        = "ssh"
         user        = "ubuntu"  # Replace with the appropriate username for your instance
-        private_key = file("/var/jenkins_home/proj1-flask-slave.pem")  # Replace with the path to your private key file
+        private_key = file("./proj1-flask-slave.pem")  # Replace with the path to your private key file
         host        = self.public_ip
     }
 
