@@ -23,6 +23,13 @@ resource "aws_instance" "ec2" {
     #     host = self.public_ip
     # }
     
+    connection {
+        type        = "ssh"
+        user        = "ubuntu"  # Replace with the appropriate username for your instance
+        private_key = file("~/.ssh/id_rsa")  # Replace with the path to your private key file
+        host        = self.public_ip
+    }
+
     # Docker installation
     provisioner "local-exec" {
         command = <<-EOT
