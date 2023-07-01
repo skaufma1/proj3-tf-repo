@@ -11,15 +11,15 @@ resource "aws_instance" "ec2" {
 }
 
 # Create elastic ip
-resource "aws_eip" "lb" {
-    vpc = true
-}
+# resource "aws_eip" "lb" {
+#     vpc = true
+# }
 
 # Connecting between ec2 instance and elastic ip instance
-resource "aws_eip_association" "eip_assoc" {
-    instance_id = aws_instance.ec2.id
-    allocation_id = aws_eip.lb.id
-}
+# resource "aws_eip_association" "eip_assoc" {
+#     instance_id = aws_instance.ec2.id
+#     allocation_id = aws_eip.lb.id
+# }
 
 # Feedback with the public IP of the new EC2 instance
 output "public_ip" {
