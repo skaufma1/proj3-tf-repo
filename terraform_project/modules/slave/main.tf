@@ -16,13 +16,6 @@ resource "aws_instance" "ec2" {
         Name = "TF-Slave-Test"
     }
     
-    # connection {
-    #     type = "ssh"
-    #     user = "com"
-    #     private_key = file("~/.ssh/id_rsa")
-    #     host = self.public_ip
-    # }
-    
     connection {
         type        = "ssh"
         user        = "ubuntu"  # Replace with the appropriate username for your instance
