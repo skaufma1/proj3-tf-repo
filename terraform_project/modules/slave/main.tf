@@ -8,6 +8,13 @@ resource "aws_instance" "ec2" {
     tags = {
         Name = "TF-Slave-Test"
     }
+    vpc_security_group_ids = [data.aws_security_group.existing.id]
+}
+
+
+# Using an existing Security Group, allowing 'All' access
+data "aws_security_group" "existing" {
+    name = "launch-wizard-1"
 }
 
 # Create elastic ip
