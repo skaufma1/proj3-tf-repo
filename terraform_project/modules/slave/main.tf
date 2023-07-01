@@ -2,6 +2,11 @@ provider "aws" {
     region = "us-east-1"
 }
 
+# Using an existing Security Group, allowing 'All' access
+data "aws_security_group" "existing" {
+    name = "launch-wizard-1"
+}
+
 resource "aws_instance" "ec2" {
     ami = "ami-0261755bbcb8c4a84"
     instance_type = "t2.small"
@@ -9,6 +14,13 @@ resource "aws_instance" "ec2" {
     key_name = "proj1-flask-slave"
     tags = {
         Name = "TF-Slave-Test"
+    }
+    
+    connection {
+        type = "ssh"
+        user = "shmuel.kaufmann1@gmail.com"
+        private_key = file("~/.ssh/id_rsa")
+        host = self.public_ip
     }
     
     provisioner "remote-exec" {
@@ -40,12 +52,6 @@ resource "aws_instance" "ec2" {
             "nohup ./node_exporter > /dev/null 2>&1 &"
         ]
     }
-}
-
-
-# Using an existing Security Group, allowing 'All' access
-data "aws_security_group" "existing" {
-    name = "launch-wizard-1"
 }
 
 # Create elastic ip
