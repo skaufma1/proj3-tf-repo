@@ -36,7 +36,7 @@ resource "aws_instance" "ec2" {
     "sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
             sudo apt-get update
             sudo apt-get install docker-ce docker-ce-cli -y containerd.io docker-buildx-plugin docker-compose-plugin
-            sudo /bin/chmod 666 /var/run/docker.sock
+            sudo chmod 666 /var/run/docker.sock
         EOT
     }
 
