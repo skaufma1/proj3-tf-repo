@@ -28,9 +28,21 @@ resource "aws_dynamodb_table" "my_table" {
         type = "S"
     }
 
+    global_secondary_index {
+        name            = "TestRunByIndex"
+        hash_key        = "TestRunBy"
+        projection_type = "ALL"
+    }
+
     attribute {
         name = "TestStatus"
         type = "N"
+    }
+
+    global_secondary_index {
+        name            = "TestStatusIndex"
+        hash_key        = "TestStatus"
+        projection_type = "ALL"
     }
 
     # Enable public access
