@@ -17,6 +17,12 @@ resource "aws_dynamodb_table" "my_table" {
         type = "S"
     }
 
+    global_secondary_index {
+        name            = "TestNameIndex"
+        hash_key        = "TestName"
+        projection_type = "ALL"
+    }
+
     attribute {
         name = "TestRunBy"
         type = "S"
