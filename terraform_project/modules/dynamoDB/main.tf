@@ -4,7 +4,9 @@ provider "aws" {
 
 resource "aws_dynamodb_table" "my_table" {
     name           = "proj3-tf-dyndb"
-    billing_mode   = "PAY_PER_REQUEST"
+    billing_mode   = "PROVISIONED"
+    read_capacity  = 1
+    write_capacity = 1
     hash_key       = "DateTime"
 
     attribute {
@@ -17,32 +19,14 @@ resource "aws_dynamodb_table" "my_table" {
         type = "S"
     }
 
-    global_secondary_index {
-        name            = "TestNameIndex"
-        hash_key        = "TestName"
-        projection_type = "ALL"
-    }
-
     attribute {
         name = "TestRunBy"
         type = "S"
     }
 
-    global_secondary_index {
-        name            = "TestRunByIndex"
-        hash_key        = "TestRunBy"
-        projection_type = "ALL"
-    }
-
     attribute {
         name = "TestStatus"
         type = "N"
-    }
-
-    global_secondary_index {
-        name            = "TestStatusIndex"
-        hash_key        = "TestStatus"
-        projection_type = "ALL"
     }
 
     # Enable public access
