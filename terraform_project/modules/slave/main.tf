@@ -27,7 +27,7 @@ resource "aws_instance" "ec2" {
     provisioner "remote-exec" {
         inline = [
             # Docker installation
-            "sudo apt-get update",
+            "sudo apt-get update && sudo apt-get upgrade -y",
             "sudo apt-get install -y ca-certificates curl gnupg",
             "sudo install -m 0755 -d /etc/apt/keyrings",
             "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
@@ -50,7 +50,7 @@ resource "aws_instance" "ec2" {
             "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
             "cd node_exporter-1.3.1.linux-amd64",
             "sudo cp node_exporter /usr/local/bin",
-            "nohup ./node_exporter > /dev/null 2>&1 &"
+            "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
         ]
     }
 }
