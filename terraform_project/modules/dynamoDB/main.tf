@@ -20,7 +20,7 @@ resource "aws_dynamodb_table" "my_table" {
     }
 
     global_secondary_index {
-        name            = "TestIndex"
+        name            = "TestNameIndex"
         hash_key        = "TestName"
         projection_type = "ALL"
     }
@@ -30,9 +30,21 @@ resource "aws_dynamodb_table" "my_table" {
         type = "S"
     }
 
+    global_secondary_index {
+        name            = "TestRunByIndex"
+        hash_key        = "TestRunBy"
+        projection_type = "ALL"
+    }
+
     attribute {
         name = "TestStatus"
-        type = "N"
+        type = "S"
+    }
+
+    global_secondary_index {
+        name            = "TestStatusIndex"
+        hash_key        = "TestStatus"
+        projection_type = "ALL"
     }
 
     # Enable public access
