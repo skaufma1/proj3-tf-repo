@@ -13,7 +13,7 @@ resource "aws_instance" "ec2" {
     vpc_security_group_ids = [data.aws_security_group.existing.id]
     key_name = "proj1-flask-slave"
     tags = {
-        Name = "TF-Slave-Test"
+        Name = "proj3-TF-slave"
     }
     
     root_block_device {
@@ -22,7 +22,7 @@ resource "aws_instance" "ec2" {
         delete_on_termination = true
     }
 
-    # Script run at EC2 instance launch - installing the node_exporter
+    # Script run at EC2 instance launch - installing the node_exporter as always ON + dethaced
     user_data = <<-EOF
         #!/bin/bash
         sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
@@ -49,11 +49,11 @@ resource "aws_instance" "ec2" {
         systemctl start node_exporter.service
     EOF
 
+    # Establishing connection to the new EC2 for 'remote-exec'
     connection {
         type        = "ssh"
-        user        = "ubuntu"  # Replace with the appropriate username for your instance
-        private_key = file("/var/jenkins_home/proj1-flask-slave.pem")  # Replace with the path to your private key file
-        # host        = self.public_ip
+        user        = "ubuntu"  
+        private_key = file("/var/jenkins_home/proj1-flask-slave.pem")  
         host = aws_instance.ec2.public_ip
     }
 
@@ -73,19 +73,10 @@ resource "aws_instance" "ec2" {
             # MySQL connectors installation
             "sudo apt update",
             "sudo apt install -y mysql-server",
-            "sudo apt install mysql-client"
-            # "sudo apt install libmysqlclient-dev"
+            "sudo apt install mysql-client",
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
-            # "sudo apt install net-tools",
-            # "sleep 10",  # Allow time for the node_exporter process to start
-            # "sudo systemctl enable node_exporter.service",
-            # "sudo systemctl start node_exporter.service"
-            # "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
-            # "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
-            # "cd node_exporter-1.3.1.linux-amd64",
-            # "sudo cp node_exporter /usr/local/bin",
-            # "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
+            "sudo apt install net-tools"
         ]
     }
 }
