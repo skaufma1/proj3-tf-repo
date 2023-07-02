@@ -46,6 +46,7 @@ resource "aws_instance" "ec2" {
             "sudo apt install libmysqlclient-dev mysql-utilities",
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
+            "sudo apt install net-tools",
             "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
             "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
             "cd node_exporter-1.3.1.linux-amd64",
