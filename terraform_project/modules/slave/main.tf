@@ -51,7 +51,7 @@ resource "aws_instance" "ec2" {
     connection {
         type        = "ssh"
         user        = "ubuntu"  # Replace with the appropriate username for your instance
-        private_key = file("./proj1-flask-slave.pem")  # Replace with the path to your private key file
+        private_key = file("/var/jenkins_home/proj1-flask-slave.pem")  # Replace with the path to your private key file
         # host        = self.public_ip
         host = aws_instance.ec2.public_ip
     }
@@ -73,7 +73,7 @@ resource "aws_instance" "ec2" {
             "sudo apt update",
             "sudo apt install -y mysql-server",
             "sudo apt install mysql-client",
-            "sudo apt install libmysqlclient-dev mysql-utilities"
+            "sudo apt install libmysqlclient-dev"
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
             # "sudo apt install net-tools",
