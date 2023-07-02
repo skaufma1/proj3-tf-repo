@@ -25,7 +25,7 @@ resource "aws_instance" "ec2" {
 
     # Docker installation
     provisioner "local-exec" {
-        command = "curl ifconfig.co"
+        command = "whoami"
         # command = <<-EOT
         #     sudo apt-get update
         # EOT
