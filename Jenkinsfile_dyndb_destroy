@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    
+    stages {
+    
+        stage ('Terraform Destroy') {
+            steps {
+                dir('/var/jenkins_home/workspace/terraform_dyndb_job/terraform_project/modules/dynamoDB') {
+                    sh 'terraform destroy --auto-approve'
+                }
+            }
+        }
+    }
+}
