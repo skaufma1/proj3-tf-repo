@@ -73,7 +73,7 @@ resource "aws_instance" "ec2" {
             "sudo apt update",
             "sudo apt install -y mysql-server",
             "sudo apt install mysql-client",
-            "sudo apt install libmysqlclient-dev mysql-utilities",
+            "sudo apt install libmysqlclient-dev mysql-utilities"
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
             # "sudo apt install net-tools",
