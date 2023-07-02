@@ -20,16 +20,25 @@ resource "aws_instance" "ec2" {
         type        = "ssh"
         user        = "ubuntu"  # Replace with the appropriate username for your instance
         private_key = file("./proj1-flask-slave.pem")  # Replace with the path to your private key file
-        host        = self.public_ip
+        # host        = self.public_ip
+        host = aws_instance.ec2.public_ip
+    }
+
+    provisioner "remote-exec" {
+        inline = [
+            "echo 'Hello, World!'",
+            "whoami",
+            "curl ifconfig.co"
+        ]
     }
 
     # Docker installation
-    provisioner "local-exec" {
-        command = "whoami"
-        # command = <<-EOT
-        #     sudo apt-get update
-        # EOT
-    }
+    # provisioner "local-exec" {
+    #     command = "whoami"
+    #     # command = <<-EOT
+    #     #     sudo apt-get update
+    #     # EOT
+    # }
 
     # provisioner "remote-exec" {
     #     inline = [
