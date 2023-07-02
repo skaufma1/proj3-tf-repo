@@ -28,7 +28,24 @@ resource "aws_instance" "ec2" {
         wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
         tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
         cd node_exporter-1.3.1.linux-amd64
-        nohup ./node_exporter > /dev/null 2>&1 &
+
+        cat <<SERVICE_EOF > /etc/systemd/system/node_exporter.service
+        [Unit]
+        Description=Node Exporter
+        Wants=network-online.target
+        After=network-online.target
+
+        [Service]
+        ExecStart=/path/to/node_exporter  # Replace /path/to/node_exporter with the actual path
+        User=ubuntu  # Replace ubuntu with the appropriate user if needed
+
+        [Install]
+        WantedBy=default.target
+        SERVICE_EOF
+
+        systemctl daemon-reload
+        systemctl enable node_exporter.service
+        systemctl start node_exporter.service
     EOF
 
     connection {
@@ -59,10 +76,10 @@ resource "aws_instance" "ec2" {
             "sudo apt install libmysqlclient-dev mysql-utilities",
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
-            "sudo apt install net-tools",
+            # "sudo apt install net-tools",
             # "sleep 10",  # Allow time for the node_exporter process to start
-            "sudo systemctl enable node_exporter.service",
-            "sudo systemctl start node_exporter.service"
+            # "sudo systemctl enable node_exporter.service",
+            # "sudo systemctl start node_exporter.service"
             # "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
             # "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
             # "cd node_exporter-1.3.1.linux-amd64",
