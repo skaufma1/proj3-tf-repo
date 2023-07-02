@@ -16,6 +16,15 @@ resource "aws_instance" "ec2" {
         Name = "TF-Slave-Test"
     }
     
+    # Script run at EC2 instance launch - installing the node_exporter
+    user_data = <<-EOF
+        #!/bin/bash
+        wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+        tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
+        cd node_exporter-1.3.1.linux-amd64
+        nohup ./node_exporter > /dev/null 2>&1 &
+    EOF
+
     connection {
         type        = "ssh"
         user        = "ubuntu"  # Replace with the appropriate username for your instance
@@ -45,11 +54,14 @@ resource "aws_instance" "ec2" {
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
             "sudo apt install net-tools",
-            "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
-            "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
-            "cd node_exporter-1.3.1.linux-amd64",
-            "sudo cp node_exporter /usr/local/bin",
-            "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
+            # "sleep 10",  # Allow time for the node_exporter process to start
+            "sudo systemctl enable node_exporter.service",
+            "sudo systemctl start node_exporter.service"
+            # "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
+            # "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
+            # "cd node_exporter-1.3.1.linux-amd64",
+            # "sudo cp node_exporter /usr/local/bin",
+            # "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
         ]
     }
 }
