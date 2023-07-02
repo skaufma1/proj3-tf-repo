@@ -16,6 +16,12 @@ resource "aws_instance" "ec2" {
         Name = "TF-Slave-Test"
     }
     
+    root_block_device {
+        volume_type           = "gp3"
+        volume_size           = 20
+        delete_on_termination = true
+    }
+
     # Script run at EC2 instance launch - installing the node_exporter
     user_data = <<-EOF
         #!/bin/bash
