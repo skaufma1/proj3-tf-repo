@@ -25,9 +25,10 @@ resource "aws_instance" "ec2" {
     # Script run at EC2 instance launch - installing the node_exporter
     user_data = <<-EOF
         #!/bin/bash
-        wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-        tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
+        sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+        sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
         cd node_exporter-1.3.1.linux-amd64
+        sudo cp node_exporter /usr/local/bin
 
         cat <<-SERVICE_EOF > /etc/systemd/system/node_exporter.service
             [Unit]
@@ -36,8 +37,8 @@ resource "aws_instance" "ec2" {
             After=network-online.target
 
             [Service]
-            ExecStart=/path/to/node_exporter  # Replace /path/to/node_exporter with the actual path
-            User=ubuntu  # Replace ubuntu with the appropriate user if needed
+            ExecStart=/usr/local/bin/node_exporter  
+            User=ubuntu  
 
             [Install]
             WantedBy=default.target
