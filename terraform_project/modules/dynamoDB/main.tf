@@ -4,9 +4,7 @@ provider "aws" {
 
 resource "aws_dynamodb_table" "my_table" {
     name           = "proj3-tf-dyndb"
-    billing_mode   = "PROVISIONED"
-    read_capacity  = 10
-    write_capacity = 5
+    billing_mode   = "PAY_PER_REQUEST"
     hash_key       = "DateTime"
 
     attribute {
