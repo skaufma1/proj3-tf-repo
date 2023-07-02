@@ -32,26 +32,27 @@ resource "aws_instance" "ec2" {
             "sudo install -m 0755 -d /etc/apt/keyrings",
             "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
             "sudo chmod a+r /etc/apt/keyrings/docker.gpg",
-            "echo \"deb [arch=\\\"$(dpkg --print-architecture)\\\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \\",
-    "\\\"$$(. /etc/os-release && echo \\\"$$VERSION_CODENAME\\\")\\\" stable\" | \\",
-    "sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+            "echo \"deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \"$(. /etc/os-release && echo \"$VERSION_CODENAME\")\" stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+    #         "echo \"deb [arch=\\\"$(dpkg --print-architecture)\\\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \\",
+    # "\\\"$$(. /etc/os-release && echo \\\"$$VERSION_CODENAME\\\")\\\" stable\" | \\",
+    # "sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
             "sudo apt-get update",
             "sudo apt-get install docker-ce docker-ce-cli -y containerd.io docker-buildx-plugin docker-compose-plugin",
             "sudo /bin/chmod 666 /var/run/docker.sock",
 
-            # MySQL connectors installation
-            "sudo apt update",
-            "sudo apt install -y mysql-server",
-            "sudo apt install mysql-client",
-            "sudo apt install libmysqlclient-dev mysql-utilities",
+            # # MySQL connectors installation
+            # "sudo apt update",
+            # "sudo apt install -y mysql-server",
+            # "sudo apt install mysql-client",
+            # "sudo apt install libmysqlclient-dev mysql-utilities",
 
-            # Node exporter readiness for Prometheus data scraping (port 9100)
-            "sudo apt install net-tools",
-            "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
-            "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
-            "cd node_exporter-1.3.1.linux-amd64",
-            "sudo cp node_exporter /usr/local/bin",
-            "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
+            # # Node exporter readiness for Prometheus data scraping (port 9100)
+            # "sudo apt install net-tools",
+            # "sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
+            # "sudo tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
+            # "cd node_exporter-1.3.1.linux-amd64",
+            # "sudo cp node_exporter /usr/local/bin",
+            # "nohup /usr/local/bin/node_exporter > /dev/null 2>&1 &"
         ]
     }
 }
