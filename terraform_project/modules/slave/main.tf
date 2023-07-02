@@ -29,18 +29,18 @@ resource "aws_instance" "ec2" {
         tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
         cd node_exporter-1.3.1.linux-amd64
 
-        cat <<SERVICE_EOF > /etc/systemd/system/node_exporter.service
-        [Unit]
-        Description=Node Exporter
-        Wants=network-online.target
-        After=network-online.target
+        cat <<-SERVICE_EOF > /etc/systemd/system/node_exporter.service
+            [Unit]
+            Description=Node Exporter
+            Wants=network-online.target
+            After=network-online.target
 
-        [Service]
-        ExecStart=/path/to/node_exporter  # Replace /path/to/node_exporter with the actual path
-        User=ubuntu  # Replace ubuntu with the appropriate user if needed
+            [Service]
+            ExecStart=/path/to/node_exporter  # Replace /path/to/node_exporter with the actual path
+            User=ubuntu  # Replace ubuntu with the appropriate user if needed
 
-        [Install]
-        WantedBy=default.target
+            [Install]
+            WantedBy=default.target
         SERVICE_EOF
 
         systemctl daemon-reload
