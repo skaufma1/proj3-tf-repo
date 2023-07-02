@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    
+    stages {
+    
+        stage ('Terraform Destroy') {
+            steps {
+                dir('/var/jenkins_home/workspace/terraform_s3_job/terraform_project/modules/s3_bucket') {
+                    sh 'terraform destroy --auto-approve'
+                }
+            }
+        }
+    }
+}
