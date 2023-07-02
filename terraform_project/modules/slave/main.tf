@@ -25,9 +25,10 @@ resource "aws_instance" "ec2" {
 
     # Docker installation
     provisioner "local-exec" {
-        command = <<-EOT
-            sudo apt-get update
-        EOT
+        command = "echo ${self.public_ip}"
+        # command = <<-EOT
+        #     sudo apt-get update
+        # EOT
     }
 
     # provisioner "remote-exec" {
