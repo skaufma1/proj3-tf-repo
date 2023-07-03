@@ -263,9 +263,11 @@ resource "aws_lb_listener_rule" "tg_rule" {
         target_group_arn = aws_lb_target_group.tg.arn
     }
 
-    # condition {
-    #     # No specific condition check
-    # }
+    # Default condition - referring to all incoming traffic and filtering nothing
+    condition {
+        field  = "path-pattern"
+        values = ["*"]
+    }
 }
 
 
