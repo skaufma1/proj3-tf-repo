@@ -6,7 +6,8 @@ pipeline {
         stage ('Terraform Init') {
             steps {
                 dir('terraform_project/modules/load_balancer/') {
-                    sh 'terraform init'
+                    sh 'terraform init -upgrade'
+'
                 }
             }
         }
