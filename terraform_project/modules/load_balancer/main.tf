@@ -123,7 +123,7 @@ resource "aws_lb" "load_balancer" {
             port              = 80
             protocol          = "HTTP"
 
-            default_action {
+            default_action = {
                 type             = "forward"
                 target_group_arn = aws_lb_target_group.target_group.arn
             }
