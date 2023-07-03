@@ -71,10 +71,17 @@ provider "aws" {
     region = "us-east-1"
 }
 
-data "aws_instances" "ec2_instances" {
+data "aws_instances" "ec2_prod1_instance" {
     filter {
         name   = "tag:Name"
-        values = ["proj3-tf-prod*"]
+        values = ["proj3-tf-prod1"]
+    }
+}
+
+data "aws_instances" "ec2_prod2_instance" {
+    filter {
+        name   = "tag:Name"
+        values = ["proj3-tf-prod2"]
     }
 }
 
@@ -86,17 +93,11 @@ resource "aws_lb_target_group" "target_group" {
 
     target_type = "instance"
 
-    dynamic "targets" {
-        for_each = data.aws_instances.ec2_instances
-        content {
-            id = targets.value.instance_id
-        }
-    }
-}
-
-# Get the IDs of the registered EC2 instances
-locals {
-    instance_ids = [for instance in data.aws_instances.ec2_instances : instance.instance_id]
+    # Specify the target instances 'A' and 'B'
+    targets = [
+        data.aws_instance.ec2_prod1_instance.id,
+        data.aws_instance.ec2_prod2_instance.id
+    ]
 }
 
 # Create a load balancer
