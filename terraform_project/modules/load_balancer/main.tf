@@ -85,21 +85,6 @@ data "aws_instances" "ec2_prod2_instance" {
     }
 }
 
-resource "aws_lb_target_group" "target_group" {
-    name     = "proj3-tf-target-group"
-    port     = 80
-    protocol = "HTTP"
-    vpc_id   = "vpc-081229f33440b91ea"
-
-    target_type = "instance"
-
-    # Specify the target instances 'A' and 'B'
-    targets = [
-        data.aws_instance.ec2_prod1_instance.id,
-        data.aws_instance.ec2_prod2_instance.id
-    ]
-}
-
 # Create a load balancer
 resource "aws_lb" "load_balancer" {
     name             = "proj3-tf-load-balancer"
@@ -129,4 +114,19 @@ resource "aws_lb" "load_balancer" {
             target_group_arn = aws_lb_target_group.target_group.arn
         }
     }
+}
+
+resource "aws_lb_target_group" "target_group" {
+    name     = "proj3-tf-target-group"
+    port     = 80
+    protocol = "HTTP"
+    vpc_id   = "vpc-081229f33440b91ea"
+
+    target_type = "instance"
+
+    # Specify the target instances 'A' and 'B'
+    targets = [
+        data.aws_instance.ec2_prod1_instance.id,
+        data.aws_instance.ec2_prod2_instance.id
+    ]
 }
