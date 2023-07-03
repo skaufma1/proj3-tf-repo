@@ -54,10 +54,15 @@ resource "aws_lb_target_group" "target_group" {
     target_type = "instance"
 
     # Use the dynamic block to populate the target instances (EC2 instances)
-    dynamic "targets" {
-        for_each = data.aws_instances.ec2_instances.instances
-        content {
-            id = targets.value
-        }
-    }
+    # dynamic "targets" {
+    #     for_each = data.aws_instances.ec2_instances.instances
+    #     content {
+    #         id = targets.value
+    #     }
+    # }
+
+    targets = [
+        for instance in data.aws_instances.ec2_instances.instances:
+            instance.id
+    ]
 }
