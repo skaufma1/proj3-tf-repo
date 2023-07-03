@@ -265,8 +265,9 @@ resource "aws_lb_listener_rule" "tg_rule" {
 
     # Default condition - referring to all incoming traffic and filtering nothing
     condition {
-        field  = "path-pattern"
-        values = ["*"]
+        path-pattern {
+            values = ["*"]
+        }
     }
 }
 
