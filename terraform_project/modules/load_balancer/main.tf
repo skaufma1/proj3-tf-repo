@@ -105,7 +105,7 @@ resource "aws_lb" "load_balancer" {
         "sg-0be101c0f47493d2e"
     ]
 
-    listeners = [
+    listener = [
         {
             port     = 80
             protocol = "HTTP"
