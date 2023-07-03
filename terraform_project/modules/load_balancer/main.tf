@@ -202,6 +202,16 @@ resource "aws_lb_target_group" "tg" {
     port     = 80
     protocol = "HTTP"
     vpc_id   = "vpc-081229f33440b91ea"
+
+    health_check {
+        path                = "/"
+        port                = "traffic-port"
+        protocol            = "HTTP"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 5
+        interval            = 30
+    }
 }
 
 resource "aws_lb_target_group_attachment" "attach_prod1" {
@@ -258,14 +268,4 @@ resource "aws_lb_listener_rule" "tg_rule" {
     }
 }
 
-resource "aws_lb_target_group_health_check" "tg_health_check" {
-    target_group_arn = aws_lb_target_group.tg.arn
-    interval         = 30
-    timeout          = 10
-    healthy_threshold = 3
-    unhealthy_threshold = 3
-    path             = "/"
-    port             = 80
-    protocol         = "HTTP"
-}
 
