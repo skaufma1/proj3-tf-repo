@@ -71,6 +71,13 @@ provider "aws" {
     region = "us-east-1"
 }
 
+data "aws_instances" "ec2_instances" {
+    filter {
+        name   = "tag:Name"
+        values = ["proj3-tf-prod*"]
+    }
+}
+
 resource "aws_lb_target_group" "target_group" {
     name     = "proj3-tf-target-group"
     port     = 80
@@ -80,23 +87,16 @@ resource "aws_lb_target_group" "target_group" {
     target_type = "instance"
 
     dynamic "targets" {
-        for_each = data.aws_instances.ec2_instances.instances
+        for_each = data.aws_instances.ec2_instances
         content {
             id = targets.value.instance_id
         }
     }
 }
 
-data "aws_instances" "ec2_instances" {
-    filter {
-        name   = "tag:Name"
-        values = ["proj3-tf-prod*"]
-    }
-}
-
 # Get the IDs of the registered EC2 instances
 locals {
-    instance_ids = aws_lb_target_group.target_group.targets
+    instance_ids = [for instance in data.aws_instances.ec2_instances : instance.instance_id]
 }
 
 # Create a load balancer
@@ -119,16 +119,13 @@ resource "aws_lb" "load_balancer" {
         "sg-0be101c0f47493d2e"
     ]
 
-    listeners = [
-        {
-            load_balancer_arn = aws_lb.load_balancer.arn
-            port              = 80
-            protocol          = "HTTP"
+    listener {
+        port     = 80
+        protocol = "HTTP"
 
-            default_action = {
-                type             = "forward"
-                target_group_arn = aws_lb_target_group.target_group.arn
-            }
+        default_action {
+            type             = "forward"
+            target_group_arn = aws_lb_target_group.target_group.arn
         }
-    ]
+    }
 }
