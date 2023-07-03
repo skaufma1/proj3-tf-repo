@@ -86,10 +86,12 @@ resource "aws_lb_target_group" "target_group" {
 
     target_type = "instance"
 
-    targets = [
-        for instance in data.aws_instances.ec2_instances.instances:
-            instance.id
-    ]
+    dynamic "targets" {
+        for_each = data.aws_instances.ec2_instances.instances
+        content {
+            id = targets.value.id
+        }
+    }
 }
 
 # Get the IDs of the registered EC2 instances
