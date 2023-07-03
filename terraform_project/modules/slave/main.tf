@@ -13,7 +13,7 @@ resource "aws_instance" "ec2" {
     vpc_security_group_ids = [data.aws_security_group.existing.id]
     key_name = "proj1-flask-slave"
     tags = {
-        Name = "proj3-TF-slave"
+        Name = "proj3-tf-slave"
     }
     
     root_block_device {

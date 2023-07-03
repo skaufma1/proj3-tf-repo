@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    
+    stages {
+    
+        stage ('Terraform Destroy') {
+            steps {
+                dir('/var/jenkins_home/workspace/terraform_lb_job/terraform_project/modules/load_balancer') {
+                    sh 'terraform destroy --auto-approve'
+                }
+            }
+        }
+    }
+}
