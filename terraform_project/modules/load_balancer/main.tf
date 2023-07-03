@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "target_group" {
     dynamic "targets" {
         for_each = data.aws_instances.ec2_instances.instances
         content {
-            id = targets.value.instance_id
+            id = targets.value
         }
     }
 }
