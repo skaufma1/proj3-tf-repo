@@ -263,9 +263,9 @@ resource "aws_lb_listener_rule" "tg_rule" {
         target_group_arn = aws_lb_target_group.tg.arn
     }
 
-    condition {
-        # No specific condition check
-    }
+    # condition {
+    #     # No specific condition check
+    # }
 }
 
 
