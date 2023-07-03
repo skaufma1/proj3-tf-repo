@@ -118,7 +118,7 @@ resource "aws_lb" "load_balancer" {
     ]
 
     listeners = [
-        {
+        # {
             load_balancer_arn = aws_lb.load_balancer.arn
             port              = 80
             protocol          = "HTTP"
@@ -127,6 +127,6 @@ resource "aws_lb" "load_balancer" {
                 type             = "forward"
                 target_group_arn = aws_lb_target_group.target_group.arn
             }
-        }
+        # }
     ]
 }
