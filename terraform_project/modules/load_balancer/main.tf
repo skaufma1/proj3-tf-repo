@@ -18,17 +18,17 @@ data "aws_instances" "ec2_prod2_instance" {
 
 resource "aws_lb_target_group" "tg" {
     name     = "proj3-tf-lb-target-group"
-    port     = 80
+    port     = 5000
     protocol = "HTTP"
     vpc_id   = "vpc-081229f33440b91ea"
 
     health_check {
         path                = "/"
-        port                = 80
+        port                = 5000
         protocol            = "HTTP"
         healthy_threshold   = 2
         unhealthy_threshold = 2
-        timeout             = 2
+        timeout             = 5
         interval            = 30
     }
 }
@@ -45,7 +45,7 @@ resource "aws_lb_target_group_attachment" "attach_prod2" {
 
 resource "aws_lb_listener" "listener" {
     load_balancer_arn = aws_lb.load_balancer.arn
-    port              = 80
+    port              = 5000
     protocol          = "HTTP"
 
     default_action {
