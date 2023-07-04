@@ -2,14 +2,15 @@ pipeline {
   agent any
   
   stages {
-    stage('Parallel Builds') {
-      parallel {
 
-        stage('Destroy Module: Load Balancer (Prod 1+2)') {
+    stage('Destroy Module: Load Balancer (Prod 1+2)') {
           steps {
             build job: 'terraform_lb_destroy_job'
           }
         } 
+
+    stage('Parallel Builds') {
+      parallel {
 
         stage('Destroy Module: Slave') {
           steps {
