@@ -76,7 +76,10 @@ resource "aws_instance" "ec2" {
             "sudo apt install mysql-client",
 
             # Node exporter readiness for Prometheus data scraping (port 9100)
-            "sudo apt install net-tools"
+            "sudo apt install net-tools",
+
+            # Installing Java Running Env so Jenkins agent node can communicate
+            "sudo apt install default-jre"
         ]
     }
 }
