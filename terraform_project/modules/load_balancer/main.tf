@@ -18,13 +18,13 @@ data "aws_instances" "ec2_prod2_instance" {
 
 resource "aws_lb_target_group" "tg" {
     name     = "proj3-tf-lb-target-group"
-    port     = 5000
+    port     = 80
     protocol = "HTTP"
     vpc_id   = "vpc-081229f33440b91ea"
 
     health_check {
         path                = "/"
-        port                = 80
+        port                = 5000
         protocol            = "HTTP"
         healthy_threshold   = 2
         unhealthy_threshold = 2
