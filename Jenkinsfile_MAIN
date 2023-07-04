@@ -33,13 +33,13 @@ pipeline {
             build job: 'terraform_dyndb_job'
           }
         }  
-
-        stage('Construct Module: Load Balancer (Prod 1+2)') {
-          steps {
-            build job: 'terraform_lb_job'
-          }
-        } 
       }
     }
+
+    stage('Construct Module: Load Balancer (Prod 1+2)') {
+      steps {
+          build job: 'terraform_lb_job'
+      }
+    } 
   }
 }
