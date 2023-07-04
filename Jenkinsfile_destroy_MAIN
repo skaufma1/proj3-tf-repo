@@ -4,6 +4,13 @@ pipeline {
   stages {
     stage('Parallel Builds') {
       parallel {
+
+        stage('Destroy Module: Load Balancer (Prod 1+2)') {
+          steps {
+            build job: 'terraform_lb_destroy_job'
+          }
+        } 
+
         stage('Destroy Module: Slave') {
           steps {
             build job: 'terraform_slave_destroy_job'
@@ -32,14 +39,7 @@ pipeline {
           steps {
             build job: 'terraform_dyndb_destroy_job'
           }
-        }  
-
-        stage('Destroy Module: Load Balancer (Prod 1+2)') {
-          steps {
-            build job: 'terraform_lb_destroy_job'
-          }
-        } 
-       
+        }         
       }
     }
   }
