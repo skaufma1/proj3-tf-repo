@@ -20,7 +20,25 @@ pipeline {
           steps {
             build job: 'terraform_prod2_job'
           }
-        }        
+        }
+
+        stage('Construct Module: s3') {
+          steps {
+            build job: 'terraform_s3_job'
+          }
+        }     
+
+        stage('Construct Module: DynamoDB') {
+          steps {
+            build job: 'terraform_dyndb_job'
+          }
+        }  
+
+        stage('Construct Module: Load Balancer (Prod 1+2)') {
+          steps {
+            build job: 'terraform_lb_job'
+          }
+        } 
       }
     }
   }
