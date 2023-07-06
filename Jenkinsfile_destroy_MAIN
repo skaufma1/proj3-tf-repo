@@ -5,7 +5,7 @@ pipeline {
 
     stage('Destroy Module: Load Balancer (Prod 1+2)') {
           steps {
-            build job: 'terraform_lb_destroy_job'
+            build job: 'proj3_job_lb_destroy'
           }
         } 
 
@@ -14,31 +14,31 @@ pipeline {
 
         stage('Destroy Module: Slave') {
           steps {
-            build job: 'terraform_slave_destroy_job'
+            build job: 'proj3_job_slave_destroy'
           }
         }
         
         stage('Destroy Module: Prod 1') {
           steps {
-            build job: 'terraform_prod1_destroy_job'
+            build job: 'proj3_job_prod1_destroy'
           }
         }
         
         stage('Destroy Module: Prod 2') {
           steps {
-            build job: 'terraform_prod2_destroy_job'
+            build job: 'proj3_job_prod2_destroy'
           }
         } 
 
         stage('Destroy Module: s3') {
           steps {
-            build job: 'terraform_s3_destroy_job'
+            build job: 'proj3_job_s3_destroy'
           }
         }     
 
         stage('Destroy Module: DynamoDB') {
           steps {
-            build job: 'terraform_dyndb_destroy_job'
+            build job: 'proj3_job_dyndb_destroy'
           }
         }         
       }
