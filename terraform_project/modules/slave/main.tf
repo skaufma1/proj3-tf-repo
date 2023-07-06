@@ -9,7 +9,7 @@ data "aws_security_group" "existing" {
 
 resource "aws_instance" "ec2" {
     ami = "ami-0261755bbcb8c4a84"
-    instance_type = "t2.small"
+    instance_type = "t2.large"
     vpc_security_group_ids = [data.aws_security_group.existing.id]
     key_name = "proj1-flask-slave"
     tags = {
@@ -79,7 +79,7 @@ resource "aws_instance" "ec2" {
             "sudo apt install net-tools",
 
             # Installing Java Running Env so Jenkins agent node can communicate
-            "sudo apt install default-jre"
+            "sudo apt install -y default-jre"
         ]
     }
 }

@@ -79,7 +79,7 @@ resource "aws_instance" "ec2" {
             "sudo apt install net-tools",
 
             # Installing Java Running Env so Jenkins agent node can communicate
-            "sudo apt install default-jre"
+            "sudo apt install -y default-jre"
         ]
     }
 }
