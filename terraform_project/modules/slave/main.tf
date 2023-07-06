@@ -81,6 +81,9 @@ resource "aws_instance" "ec2" {
             # Installing Java Running Env so Jenkins agent node can communicate
             "sudo apt install -y default-jre",
 
+            # pip install for all future installations, on later Jenkinsfiles
+            "sudo apt install -y python3-pip",
+
             # Installing Chrome browser + driver
             "sudo apt update",
             "sudo apt upgrade -y",
