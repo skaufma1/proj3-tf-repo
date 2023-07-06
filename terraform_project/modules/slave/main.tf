@@ -79,7 +79,28 @@ resource "aws_instance" "ec2" {
             "sudo apt install net-tools",
 
             # Installing Java Running Env so Jenkins agent node can communicate
-            "sudo apt install -y default-jre"
+            "sudo apt install -y default-jre",
+
+            # Installing Chrome browser + driver
+            "sudo apt update",
+            "sudo apt upgrade -y",
+
+            "sudo apt install -y unzip wget",
+
+            "wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE",
+            "export CHROME_DRIVER_VERSION=$(cat LATEST_RELEASE)",
+            "wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip",
+            
+            "unzip chromedriver_linux64.zip",
+
+            "sudo mv chromedriver /usr/local/bin/",
+
+            "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+            "sudo dpkg -i google-chrome-stable_current_amd64.deb",
+            "sudo apt install -f -y",
+
+            "google-chrome-stable --version",
+            "chromedriver --version"
         ]
     }
 }
