@@ -3,53 +3,6 @@ pipeline {
     
     stages {
     
-        stage('Empty S3 Bucket') {
-      
-            steps {
-                script {
-                    // Install python3-distutils package
-                    sh 'apt-get update'
-                    sh 'apt-get install -y python3-distutils'
-
-                    // Download and install pip
-                    sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
-                    sh 'python3 get-pip.py'
-          
-                    // Install Boto3 using pip
-                    sh 'pip install boto3'
-                    
-                    // Python code to empty the S3 bucket using Boto3
-                    def pythonCode = """
-
-import boto3
-
-bucket_name = 'proj3-tf-bucket'
-
-s3 = boto3.client('s3')
-
-response = s3.list_objects_v2(Bucket=bucket_name)
-
-if 'Contents' in response:
-    objects = [{'Key': obj['Key']} for obj in response['Contents']]
-    s3.delete_objects(Bucket=bucket_name, Delete={'Objects': objects})
-
-while response['IsTruncated']:
-    response = s3.list_objects_v2(Bucket=bucket_name, ContinuationToken=response['NextContinuationToken'])
-    if 'Contents' in response:
-        objects = [{'Key': obj['Key']} for obj in response['Contents']]
-        s3.delete_objects(Bucket=bucket_name, Delete={'Objects': objects})
-"""
-
-                // Execute the Python code using Boto3
-                sh """
-                    python3 -c '''
-                    ${pythonCode}
-                    '''
-                """
-                }
-            }     
-        }
-
         stage ('Terraform Destroy') {
             steps {
                 dir('/var/jenkins_home/workspace/proj3_job_s3/terraform_project/modules/s3_bucket') {
