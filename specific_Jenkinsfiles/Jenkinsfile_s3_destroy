@@ -4,14 +4,47 @@ pipeline {
     stages {
     
         stage('Empty S3 Bucket') {
+      
             steps {
+
                 script {
-                // Execute AWS CLI command to delete each object in the bucket
+                // Python code to empty the S3 bucket using Boto3
+                def pythonCode = """
+import boto3
+
+def empty_s3_bucket(bucket_name):
+    s3 = boto3.client('s3')
+    
+    # List objects in the bucket
+    response = s3.list_objects_v2(Bucket=bucket_name)
+    
+    # Delete each object in the bucket
+    if 'Contents' in response:
+        objects = [{'Key': obj['Key']} for obj in response['Contents']]
+        s3.delete_objects(Bucket=bucket_name, Delete={'Objects': objects})
+    
+    # Delete any remaining objects if the bucket has more than 1000 objects
+    while response['IsTruncated']:
+        response = s3.list_objects_v2(Bucket=bucket_name, ContinuationToken=response['NextContinuationToken'])
+        if 'Contents' in response:
+            objects = [{'Key': obj['Key']} for obj in response['Contents']]
+            s3.delete_objects(Bucket=bucket_name, Delete={'Objects': objects})
+
+# Usage
+bucket_name = 'proj3-tf-bucket'
+empty_s3_bucket(bucket_name)
+"""
+          
+                // Write the Python code to a temporary file
+                writeFile file: 'empty_s3_bucket.py', text: pythonCode
+          
+                // Execute the Python code using Boto3
                 sh '''
-                    # List objects in the bucket and delete them one by one
-                    aws s3api list-objects --bucket proj3-tf-bucket --query "Contents[].Key" --output text | while IFS= read -r key; do
-                        aws s3api delete-object --bucket proj3-tf-bucket --key "$key"
-                    done
+                    # Install Boto3 using pip
+                    pip install boto3
+            
+                    # Run the Python script to empty the S3 bucket
+                    python empty_s3_bucket.py
                 '''
                 }
             }
