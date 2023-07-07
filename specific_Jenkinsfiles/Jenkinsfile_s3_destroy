@@ -3,6 +3,20 @@ pipeline {
     
     stages {
     
+        stage('Empty S3 Bucket') {
+            steps {
+                script {
+                // Execute AWS CLI command to delete each object in the bucket
+                sh '''
+                    # List objects in the bucket and delete them one by one
+                    while read -r key; do
+                    aws s3api delete-object --bucket proj3-tf-bucket --key "$key"
+                    done < <(aws s3api list-objects --bucket proj3-tf-bucket --query "Contents[].Key" --output text)
+                '''
+                }
+            }
+        }
+
         stage ('Terraform Destroy') {
             steps {
                 dir('/var/jenkins_home/workspace/proj3_job_s3/terraform_project/modules/s3_bucket') {
