@@ -7,13 +7,15 @@ pipeline {
       
             steps {
                 script {
+                    // Download and install pip
+                    sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
+                    sh 'python get-pip.py'
+          
+                    // Install Boto3 using pip
+                    sh 'pip install boto3'
+                    
                     // Python code to empty the S3 bucket using Boto3
                     def pythonCode = """
-
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py
-
-pip install boto3
 
 import boto3
 
