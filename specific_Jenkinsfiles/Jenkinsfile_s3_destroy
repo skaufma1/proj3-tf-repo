@@ -9,6 +9,12 @@ pipeline {
                 script {
                     // Python code to empty the S3 bucket using Boto3
                     def pythonCode = """
+
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+
+pip install boto3
+
 import boto3
 
 bucket_name = 'proj3-tf-bucket'
