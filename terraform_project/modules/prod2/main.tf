@@ -53,7 +53,7 @@ resource "aws_instance" "ec2" {
     connection {
         type        = "ssh"
         user        = "ubuntu"  
-        private_key = file("/var/jenkins_home/proj1-flask-slave.pem")  
+        private_key = file("/var/lib/jenkins/proj1-flask-slave.pem")  
         host = aws_instance.ec2.public_ip
     }
 
