@@ -17,15 +17,16 @@ resource "aws_s3_bucket_public_access_block" "s3" {
 // Ongoing lifecyle: according to the first matched rule = 365 days
 // During destroy: according to the minimal setting across all rules = 0 days = immediate deletion
 resource "aws_s3_bucket_lifecycle_configuration" "s3" {
+    bucket = aws_s3_bucket.s3.id
+
   rule {
     id      = "AutoDeleteAfter365Days"
     status  = "Enabled"
     prefix  = ""   # Leave this empty to apply the rule to the entire bucket
-    enabled = true
 
     # Expiration rule for automatic deletion after 365 days = 1 year
     expiration {
-      days = 365
+        days = 365
     }
   }
 
@@ -33,7 +34,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3" {
     id      = "DeleteDuringDestroy"
     status  = "Enabled"
     prefix  = ""   # Leave this empty to apply the rule to the entire bucket
-    enabled = true
 
     # Expiration rule for immediate deletion during destroy
     expiration {
