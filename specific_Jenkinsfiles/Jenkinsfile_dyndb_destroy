@@ -5,7 +5,7 @@ pipeline {
     
         stage ('Terraform Destroy') {
             steps {
-                dir('/var/lib/jenkins/workspace/proj3_job_dyndb/terraform_project/modules/dynamoDB') {
+                dir('/home/ubuntu/workspace/proj3_job_s3/terraform_project/modules/dynamoDB') {
                     sh 'terraform destroy --auto-approve'
                 }
             }

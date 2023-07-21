@@ -5,7 +5,7 @@ pipeline {
     
         stage ('Terraform Destroy') {
             steps {
-                dir('/var/lib/jenkins/workspace/proj3_job_s3/terraform_project/modules/s3_bucket') {
+                dir('/home/ubuntu/workspace/proj3_job_s3/terraform_project/modules/s3_bucket') {
                     sh 'terraform destroy --auto-approve'
                 }
             }
