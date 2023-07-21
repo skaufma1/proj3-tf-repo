@@ -1,11 +1,11 @@
 pipeline {
-    agent any
+    agent {label 'master'}
     
     stages {
     
         stage ('Terraform Destroy') {
             steps {
-                dir('/var/lib/jenkins/workspace/proj3_job_prod2/terraform_project/modules/prod2') {
+                dir('/home/ubuntu/workspace/proj3_job_prod2/terraform_project/modules/prod2') {
                     sh 'terraform destroy --auto-approve'
                 }
             }
